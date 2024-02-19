@@ -1,6 +1,5 @@
 const checkLength = (string, maxLength) => string.length <= maxLength;
-// console.log(checkLength('helloWorld', 9));
-// console.log(checkLength('helloWorld', 10));
+checkLength('helloWorld', 9);
 
 const isPalindrome = (string) => {
   const newString = string.replaceAll(' ', '').toLowerCase();
@@ -11,21 +10,19 @@ const isPalindrome = (string) => {
   }
   return true;
 };
-// console.log(isPalindrome('Лёша на полке клопа нашёл '));
-// console.log(isPalindrome('не палиндром'));
+isPalindrome('Лёша на полке клопа нашёл ');
 
 const getNumbers = (string) => {
   const newString = String(string);
   const NUMBERS = '0123456789';
   let result = '';
-  for (let number of newString) {
+  for (const number of newString) {
     if (NUMBERS.includes(number)) {
       result += number;
     }
   }
   return result.length ? +result : NaN;
 };
-// console.log(getNumbers('1 кефир, 0.5 батона'));
-// console.log(getNumbers('а я томат'));
-// console.log(getNumbers(-1.5));
+getNumbers('1 кефир, 0.5 батона');
+
 
