@@ -48,6 +48,5 @@ const createPhotoData = () => ({
   comments: getCommentsList()
 });
 
+// eslint-disable-next-line
 const photosList = Array.from({length: 25}, createPhotoData);
-// console.log(photosList);
-
