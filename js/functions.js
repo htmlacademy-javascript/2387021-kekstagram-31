@@ -25,4 +25,8 @@ const getNumbers = (string) => {
 };
 getNumbers('1 кефир, 0.5 батона');
 
-
+const isIncludedInTheWorkingDay = (startWorkingDay, endWorkingDay, startMeeting, duration) => {
+  const getMinutes = (time) => Number(time.split(':')[0]) * 60 + Number(time.split(':')[1]);
+  return (getMinutes(startMeeting) >= getMinutes(startWorkingDay) && (getMinutes(startMeeting) + duration) <= getMinutes(endWorkingDay));
+};
+isIncludedInTheWorkingDay('8:00', '17:30', '08:00', 900);
