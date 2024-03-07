@@ -1,4 +1,3 @@
-import {createPhotosList} from './photos-list.js';
+import {createMinis} from './create-minis.js';
 
-// eslint-disable-next-line
-console.log(createPhotosList());
+createMinis();
