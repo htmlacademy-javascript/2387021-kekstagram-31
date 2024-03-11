@@ -16,6 +16,7 @@ const createMinis = () => {
     image.alt = photos[i].description;
     likes.textContent = photos[i].likes;
     comments.innerHTML = photos[i].comments.length;
+    image.id = photos[i].id;
 
     fragment.append(photoElement);
   }
@@ -23,4 +24,8 @@ const createMinis = () => {
   container.append(fragment);
 };
 
-export {createMinis};
+export {createMinis, container, photos};
+
+
+document.querySelector('.comments-loader').classList.add('hidden');
+document.querySelector('.social__comment-count').classList.add('hidden');
