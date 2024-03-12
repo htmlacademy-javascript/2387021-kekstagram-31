@@ -9,6 +9,8 @@ const shownCommentsCount = document.querySelector('.social__comment-shown-count'
 const photoCaption = document.querySelector('.social__caption');
 const commentsList = document.querySelector('.social__comments');
 const commentItem = document.querySelector('.social__comment');
+const loadButton = document.querySelector('.social__comments-loader');
+let commentsContainer = [];
 
 const showFullPhoto = () => {
   document.body.classList.add('modal-open');
@@ -23,15 +25,37 @@ const getPhotoById = (image) => {
   }
 };
 
+const hideButton = () => loadButton.classList.add('hidden');
+
 const makeCommentsList = (list) => {
+
+  if (list.length === 0) {
+    shownCommentsCount.textContent = 0;
+  }
   for (let i = 0; i < list.length; i++) {
     const comment = commentItem.cloneNode(true);
     comment.querySelector('img').src = list[i].avatar;
     comment.querySelector('img').alt = list[i].name;
     comment.querySelector('p').textContent = list[i].message;
-    commentsList.append(comment);
+    commentsContainer.push(comment);
   }
+  return commentsContainer;
 };
+
+// const loadMoreComments = (comments, shownComments, allComments) => {
+//   // console.log(shownComments)
+//   for (let i = Number(shownComments); i < Number(shownComments) + 5; i++) {
+//     if (!comments[i]) {
+//       break;
+//     }
+//     commentsList.append(comments[i]);
+//     shownCommentsCount.textContent = i + 1;
+//   }
+
+//   if (shownComments === allComments) {
+//     hideButton();
+//   }
+// };
 
 const onPhotoClick = (evt) => {
   const currentPhoto = evt.target;
@@ -42,15 +66,50 @@ const onPhotoClick = (evt) => {
     showFullPhoto();
   }
 
+  loadButton.classList.remove('hidden');
+  shownCommentsCount.textContent = 0;
+  commentsContainer = [];
   fullPhoto.src = currentPhoto.src;
   likesCount.textContent = currentPhotoData.likes;
   commentsCount.textContent = currentPhotoData.comments.length;
-  (currentPhotoData.comments.length > 2) ? shownCommentsCount.textContent = 2 : shownCommentsCount.textContent = currentPhotoData.comments.length;
   photoCaption.textContent = currentPhotoData.description;
-  commentsList.innerHTML = '';
+  commentsList.textContent = '';
   const commentsArray = currentPhotoData.comments;
-  const commentsBlock = makeCommentsList(commentsArray);
+  const allComments = makeCommentsList(commentsArray);
+
+  for (let i = 0; i < 5; i++) {
+    if (!allComments[i]) {
+      break;
+    }
+    commentsList.append(allComments[i]);
+    shownCommentsCount.textContent = i + 1;
+  }
+
+  if (shownCommentsCount.textContent === commentsCount.textContent) {
+    hideButton();
+  }
+  // console.log(shownCommentsCount)
+
+  loadButton.addEventListener('click', () => {
+    let counter = 0;
+    for (let i = Number(shownCommentsCount.textContent); (i < Number(shownCommentsCount.textContent) + 5); i++) {
+      if (!allComments[i]) {
+        break;
+      }
+      commentsList.append(allComments[i]);
+      counter++;
+    }
+    shownCommentsCount.textContent = Number(shownCommentsCount.textContent) + counter;
+
+    if (shownCommentsCount.textContent >= commentsCount.textContent) {
+      hideButton();
+    }
+  });
+
+  console.log(shownCommentsCount.textContent)
 };
+// console.log(commentsContainer.textContent)
+
 
 container.addEventListener('click', onPhotoClick);
 
