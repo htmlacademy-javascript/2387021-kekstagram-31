@@ -42,21 +42,6 @@ const makeCommentsList = (list) => {
   return commentsContainer;
 };
 
-// const loadMoreComments = (comments, shownComments, allComments) => {
-//   // console.log(shownComments)
-//   for (let i = Number(shownComments); i < Number(shownComments) + 5; i++) {
-//     if (!comments[i]) {
-//       break;
-//     }
-//     commentsList.append(comments[i]);
-//     shownCommentsCount.textContent = i + 1;
-//   }
-
-//   if (shownComments === allComments) {
-//     hideButton();
-//   }
-// };
-
 const onPhotoClick = (evt) => {
   const currentPhoto = evt.target;
   const currentPhotoData = getPhotoById(currentPhoto);
@@ -88,9 +73,8 @@ const onPhotoClick = (evt) => {
   if (shownCommentsCount.textContent === commentsCount.textContent) {
     hideButton();
   }
-  // console.log(shownCommentsCount)
 
-  loadButton.addEventListener('click', () => {
+  const loadMoreComments = () => {
     let counter = 0;
     for (let i = Number(shownCommentsCount.textContent); (i < Number(shownCommentsCount.textContent) + 5); i++) {
       if (!allComments[i]) {
@@ -104,24 +88,24 @@ const onPhotoClick = (evt) => {
     if (shownCommentsCount.textContent >= commentsCount.textContent) {
       hideButton();
     }
+  };
+
+  loadButton.addEventListener('click', loadMoreComments);
+
+  const closeFullPhoto = () => {
+    document.body.classList.remove('modal-open');
+    photoContainer.classList.add('hidden');
+    loadButton.removeEventListener('click', loadMoreComments);
+  };
+
+  closeButton.addEventListener('click', closeFullPhoto);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeFullPhoto();
+    }
   });
-
-  console.log(shownCommentsCount.textContent)
 };
-// console.log(commentsContainer.textContent)
-
 
 container.addEventListener('click', onPhotoClick);
 
-const closeFullPhoto = () => {
-  document.body.classList.remove('modal-open');
-  photoContainer.classList.add('hidden');
-};
-
-closeButton.addEventListener('click', closeFullPhoto);
-
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    closeFullPhoto();
-  }
-});
