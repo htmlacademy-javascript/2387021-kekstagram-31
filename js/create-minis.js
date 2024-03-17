@@ -26,6 +26,3 @@ const createMinis = () => {
 
 export {createMinis, container, photos};
 
-
-document.querySelector('.comments-loader').classList.add('hidden');
-document.querySelector('.social__comment-count').classList.add('hidden');
