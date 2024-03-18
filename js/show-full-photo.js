@@ -46,65 +46,65 @@ const onPhotoClick = (evt) => {
   const currentPhoto = evt.target;
   const currentPhotoData = getPhotoById(currentPhoto);
 
-  if (evt.target.matches('img')) {
+  if (evt.target.closest('img')) {
     evt.preventDefault();
     showFullPhoto();
-  }
 
-  loadButton.classList.remove('hidden');
-  shownCommentsCount.textContent = 0;
-  commentsContainer = [];
-  fullPhoto.src = currentPhoto.src;
-  likesCount.textContent = currentPhotoData.likes;
-  commentsCount.textContent = currentPhotoData.comments.length;
-  photoCaption.textContent = currentPhotoData.description;
-  commentsList.textContent = '';
-  const commentsArray = currentPhotoData.comments;
-  const allComments = makeCommentsList(commentsArray);
+    loadButton.classList.remove('hidden');
+    shownCommentsCount.textContent = 0;
+    commentsContainer = [];
+    fullPhoto.src = currentPhoto.src;
+    likesCount.textContent = currentPhotoData.likes;
+    commentsCount.textContent = currentPhotoData.comments.length;
+    photoCaption.textContent = currentPhotoData.description;
+    commentsList.textContent = '';
+    const commentsArray = currentPhotoData.comments;
+    const allComments = makeCommentsList(commentsArray);
 
-  for (let i = 0; i < 5; i++) {
-    if (!allComments[i]) {
-      break;
-    }
-    commentsList.append(allComments[i]);
-    shownCommentsCount.textContent = i + 1;
-  }
-
-  if (shownCommentsCount.textContent === commentsCount.textContent) {
-    hideButton();
-  }
-
-  const loadMoreComments = () => {
-    let counter = 0;
-    for (let i = Number(shownCommentsCount.textContent); (i < Number(shownCommentsCount.textContent) + 5); i++) {
+    for (let i = 0; i < 5; i++) {
       if (!allComments[i]) {
         break;
       }
       commentsList.append(allComments[i]);
-      counter++;
+      shownCommentsCount.textContent = i + 1;
     }
-    shownCommentsCount.textContent = Number(shownCommentsCount.textContent) + counter;
 
-    if (shownCommentsCount.textContent >= commentsCount.textContent) {
+    if (shownCommentsCount.textContent === commentsCount.textContent) {
       hideButton();
     }
-  };
 
-  loadButton.addEventListener('click', loadMoreComments);
+    const loadMoreComments = () => {
+      let counter = 0;
+      for (let i = Number(shownCommentsCount.textContent); (i < Number(shownCommentsCount.textContent) + 5); i++) {
+        if (!allComments[i]) {
+          break;
+        }
+        commentsList.append(allComments[i]);
+        counter++;
+      }
+      shownCommentsCount.textContent = Number(shownCommentsCount.textContent) + counter;
 
-  const closeFullPhoto = () => {
-    document.body.classList.remove('modal-open');
-    photoContainer.classList.add('hidden');
-    loadButton.removeEventListener('click', loadMoreComments);
-  };
+      if (shownCommentsCount.textContent >= commentsCount.textContent) {
+        hideButton();
+      }
+    };
 
-  closeButton.addEventListener('click', closeFullPhoto);
+    loadButton.addEventListener('click', loadMoreComments);
 
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      closeFullPhoto();
-    }
-  });
+    const closeFullPhoto = () => {
+      document.body.classList.remove('modal-open');
+      photoContainer.classList.add('hidden');
+      loadButton.removeEventListener('click', loadMoreComments);
+    };
+
+    closeButton.addEventListener('click', closeFullPhoto);
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeFullPhoto();
+      }
+    });
+  }
 };
 
 container.addEventListener('click', onPhotoClick);
