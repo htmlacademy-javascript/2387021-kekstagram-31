@@ -5,7 +5,6 @@ const closeButtonModal = document.querySelector('.img-upload__cancel');
 const hashtags = document.querySelector('.text__hashtags');
 const textarea = document.querySelector('.text__description');
 
-
 const openModal = () => {
   uploadModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -36,7 +35,10 @@ const pristine = new Pristine(form, {
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  const isValid = pristine.validate();
+  if (isValid) {
+    form.submit();
+  }
 });
 
 const validateHashtags = (value) => {
