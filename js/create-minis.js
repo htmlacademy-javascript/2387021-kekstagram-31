@@ -1,4 +1,4 @@
-import {createPhotosList} from './photos-list.js';
+import {createPhotosList} from './create-photos-list.js';
 
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
