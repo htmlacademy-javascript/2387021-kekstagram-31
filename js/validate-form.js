@@ -79,3 +79,5 @@ pristine.addValidator(hashtags, validateRepeatHashtags, 'хэштеги повт
 
 textarea.addEventListener('keydown', (evt) => evt.stopPropagation());
 hashtags.addEventListener('keydown', (evt) => evt.stopPropagation());
+
+export {form};
