@@ -1,4 +1,5 @@
-import {container, photos} from './create-minis.js';
+import {container} from './create-minis.js';
+import {photos} from './api.js';
 
 const photoContainer = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
@@ -107,5 +108,8 @@ const onPhotoClick = (evt) => {
   }
 };
 
+
 container.addEventListener('click', onPhotoClick);
+
+export {onPhotoClick};
 
