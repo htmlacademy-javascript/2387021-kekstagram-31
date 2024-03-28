@@ -1,5 +1,5 @@
 // import {createMinis} from './create-minis.js';
-import {showErrorMessage} from './util.js';
+import {showUploadErrorMessage} from './util.js';
 
 // const baseUrl = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
@@ -8,29 +8,16 @@ import {showErrorMessage} from './util.js';
 //   sendData: '/',
 // };
 
-const method = {
-  get: 'GET',
-  post: 'POST',
-};
+// const method = {
+//   get: 'GET',
+//   post: 'POST',
+// };
 
-const errorText = {
-  get: 'Не удалось загрузить данные. Попробуйте еще раз',
-  post: 'Не удалось отправить данные формы',
-};
+// const errorText = {
+//   get: 'Не удалось загрузить данные. Попробуйте еще раз',
+//   post: 'Не удалось отправить данные формы',
+// };
 
-// fetch('https:31.javascript.htmlacademy.pro/kekstagram/data')
-//   .then((response) => {
-//     if (response.ok) {
-//       response.json();
-//     }
-//     // throw Error;
-//   })
-//   .then((minis) => {
-//     createMinis(minis);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
 
 async function getResponse() {
   let response;
@@ -40,23 +27,12 @@ async function getResponse() {
       throw new Error(`${response.status} - ${response.statusText}`);
     }
   } catch (err) {
-    showErrorMessage();
+    showUploadErrorMessage();
   }
   const photos = await response.json();
   return photos;
 }
 
 const photos = await getResponse();
-
-
-// const getData = () => load(Route.getData);
-
-// getData().then((data) => {
-//   console.log(data);
-// }).catch((error) => {
-//   console.error(error);
-// });
-
-// const sendData = (body) => load(Route.sendData, Method.post, body);
 
 export {photos};
