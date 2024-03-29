@@ -22,6 +22,18 @@ const showErrorMessage = () => {
 
   const errorBlock = document.querySelector('.error');
 
+  document.body.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      errorBlock.remove();
+    }
+  });
+
+  document.body.addEventListener('click', (evt) => {
+    if (evt.target === errorBlock) {
+      errorBlock.remove();
+    }
+  });
+
   // errorButton.addEventListener('click', () => {
   //   errorBlock.remove();
   // });
@@ -36,6 +48,18 @@ const showSuccessMessage = () => {
   document.body.append(successArea);
 
   const successBlock = document.querySelector('.success');
+
+  document.body.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      successBlock.remove();
+    }
+  });
+
+  document.body.addEventListener('click', (evt) => {
+    if (evt.target === successBlock) {
+      successBlock.remove();
+    }
+  });
 
   // successButton.addEventListener('click', () => {
   //   successBlock.remove();

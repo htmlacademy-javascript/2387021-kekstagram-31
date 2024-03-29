@@ -1,4 +1,6 @@
 import {closeUploadWindow, showErrorMessage, showSuccessMessage} from './util.js';
+import {workingImage, rangeSliderContainer} from './add-effects-to-image.js';
+
 
 const form = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
@@ -29,6 +31,9 @@ const closeModal = () => {
   uploadModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadInput.value = '';
+  workingImage.style.transform = 'scale(1)';
+  workingImage.style.filter = '';
+  rangeSliderContainer.classList.add('hidden');
 };
 
 closeButtonModal.addEventListener('click', closeModal);
@@ -65,7 +70,7 @@ form.addEventListener('submit', (evt) => {
         } else {
           showSuccessMessage();
         }
-        response.json();
+        return response.json();
       })
       .catch(() => {
         showErrorMessage();
