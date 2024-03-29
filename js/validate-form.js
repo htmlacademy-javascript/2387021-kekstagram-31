@@ -1,9 +1,24 @@
+import {closeUploadWindow, showErrorMessage, showSuccessMessage} from './util.js';
+import {workingImage, rangeSliderContainer} from './add-effects-to-image.js';
+
+
 const form = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
 const uploadModal = document.querySelector('.img-upload__overlay');
 const closeButtonModal = document.querySelector('.img-upload__cancel');
 const hashtags = document.querySelector('.text__hashtags');
 const textarea = document.querySelector('.text__description');
+const formSubmitButton = document.querySelector('.img-upload__submit');
+
+const disabledButton = () => {
+  formSubmitButton.disabled = true;
+  formSubmitButton.textContent = 'Сохраняю...';
+};
+
+const enableButton = () => {
+  formSubmitButton.disabled = false;
+  formSubmitButton.textContent = 'Сохранить';
+};
 
 const openModal = () => {
   uploadModal.classList.remove('hidden');
@@ -16,6 +31,17 @@ const closeModal = () => {
   uploadModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadInput.value = '';
+  workingImage.style.transform = 'scale(1)';
+  workingImage.style.filter = '';
+  rangeSliderContainer.classList.add('hidden');
+};
+
+const resetForm = () => {
+  form.reset();
+  uploadInput.value = '';
+  workingImage.style.transform = 'scale(1)';
+  workingImage.style.filter = '';
+  rangeSliderContainer.classList.add('hidden');
 };
 
 closeButtonModal.addEventListener('click', closeModal);
@@ -37,7 +63,32 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
-    form.submit();
+    const formData = new FormData(evt.target);
+
+    disabledButton();
+    fetch(
+      'https:31.javascript.htmlacademy.pro/kekstagram/',
+      {
+        method: 'POST',
+        body: formData,
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`${response.status} - ${response.statusText}`);
+        } else {
+          showSuccessMessage();
+          resetForm();
+          closeUploadWindow();
+        }
+        return response.json();
+      })
+      .catch(() => {
+        showErrorMessage();
+      })
+      .finally(enableButton());
+
+    // closeUploadWindow();
+    // resetForm();
   }
 });
 

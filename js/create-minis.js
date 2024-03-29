@@ -1,9 +1,12 @@
 import {createPhotosList} from './create-photos-list.js';
+import {photos} from './api.js';
+// import {getData} from './api.js';
 
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const fragment = document.createDocumentFragment();
-const photos = createPhotosList();
+// const photos = createPhotosList();
+
 
 const createMinis = () => {
   for (let i = 0; i < photos.length; i++) {
@@ -24,5 +27,4 @@ const createMinis = () => {
   container.append(fragment);
 };
 
-export {createMinis, container, photos};
-
+export {createMinis, container};
