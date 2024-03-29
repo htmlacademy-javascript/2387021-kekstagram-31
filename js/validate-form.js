@@ -12,12 +12,12 @@ const formSubmitButton = document.querySelector('.img-upload__submit');
 
 const disabledButton = () => {
   formSubmitButton.disabled = true;
-  formSubmitButton.textContent = 'Сохраняю...';
+  formSubmitButton.textContent = 'Публикация...';
 };
 
 const enableButton = () => {
   formSubmitButton.disabled = false;
-  formSubmitButton.textContent = 'Сохранить';
+  formSubmitButton.textContent = 'Опубликовать';
 };
 
 const openModal = () => {
@@ -46,7 +46,7 @@ const resetForm = () => {
 
 closeButtonModal.addEventListener('click', closeModal);
 
-document.body.addEventListener('keydown', (evt) => {
+document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     closeModal();
   }
@@ -63,9 +63,9 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
+    disabledButton();
     const formData = new FormData(evt.target);
 
-    disabledButton();
     fetch(
       'https:31.javascript.htmlacademy.pro/kekstagram/',
       {
@@ -85,10 +85,9 @@ form.addEventListener('submit', (evt) => {
       .catch(() => {
         showErrorMessage();
       })
-      .finally(enableButton());
-
-    // closeUploadWindow();
-    // resetForm();
+      .finally(() => {
+        enableButton();
+      });
   }
 });
 

@@ -1,7 +1,7 @@
 const errorLoadUsersDataTemplate = document.querySelector('#data-error').content;
 const errorLoadDataTemplate = document.querySelector('#error').content;
+const errorButton = errorLoadDataTemplate.querySelector('.error__button');
 const successTemplate = document.querySelector('#success').content;
-const errorButton = document.querySelector('.error__button');
 const successButton = document.querySelector('.success__button');
 const uploadWindow = document.querySelector('.img-upload__overlay');
 
@@ -23,6 +23,7 @@ const showErrorMessage = () => {
   const errorBlock = document.querySelector('.error');
 
   document.body.addEventListener('keydown', (evt) => {
+    evt.stopPropagation();
     if (evt.key === 'Escape') {
       errorBlock.remove();
     }
@@ -34,9 +35,9 @@ const showErrorMessage = () => {
     }
   });
 
-  // errorButton.addEventListener('click', () => {
-  //   errorBlock.remove();
-  // });
+  errorButton.addEventListener('click', () => {
+    errorBlock.remove();
+  });
 
   setTimeout(() => {
     errorBlock.remove();
@@ -56,14 +57,10 @@ const showSuccessMessage = () => {
   });
 
   document.body.addEventListener('click', (evt) => {
-    if (evt.target === successBlock) {
+    if (evt.target === successBlock || evt.target === successButton) {
       successBlock.remove();
     }
   });
-
-  // successButton.addEventListener('click', () => {
-  //   successBlock.remove();
-  // });
 
   setTimeout(() => {
     successBlock.remove();
