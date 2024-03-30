@@ -1,4 +1,4 @@
-import {createPhotosList} from './create-photos-list.js';
+// import {createPhotosList} from './create-photos-list.js';
 import {photos} from './api.js';
 // import {getData} from './api.js';
 
