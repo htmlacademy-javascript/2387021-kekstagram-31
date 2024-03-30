@@ -65,7 +65,6 @@ form.addEventListener('submit', (evt) => {
   if (isValid) {
     disabledButton();
     const formData = new FormData(evt.target);
-
     fetch(
       'https:31.javascript.htmlacademy.pro/kekstagram/',
       {

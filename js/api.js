@@ -29,8 +29,8 @@ async function getResponse() {
   } catch (err) {
     showUploadErrorMessage();
   }
-  const photos = await response.json();
-  return photos;
+  const minis = await response.json();
+  return minis;
 }
 
 const photos = await getResponse();

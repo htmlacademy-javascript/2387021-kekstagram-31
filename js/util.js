@@ -1,8 +1,6 @@
 const errorLoadUsersDataTemplate = document.querySelector('#data-error').content;
 const errorLoadDataTemplate = document.querySelector('#error').content;
-const errorButton = errorLoadDataTemplate.querySelector('.error__button');
 const successTemplate = document.querySelector('#success').content;
-const successButton = document.querySelector('.success__button');
 const uploadWindow = document.querySelector('.img-upload__overlay');
 
 const showUploadErrorMessage = () => {
@@ -35,6 +33,7 @@ const showErrorMessage = () => {
     }
   });
 
+  const errorButton = document.querySelector('.error__button');
   errorButton.addEventListener('click', () => {
     errorBlock.remove();
   });
@@ -56,6 +55,7 @@ const showSuccessMessage = () => {
     }
   });
 
+  const successButton = document.querySelector('.success__button');
   document.body.addEventListener('click', (evt) => {
     if (evt.target === successBlock || evt.target === successButton) {
       successBlock.remove();
