@@ -1,6 +1,8 @@
 // import {createMinis} from './create-minis.js';
 import {showUploadErrorMessage} from './util.js';
 
+const filtersBlock = document.querySelector('.img-filters');
+
 // const baseUrl = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
 // const Route = {
@@ -30,6 +32,7 @@ async function getResponse() {
     showUploadErrorMessage();
   }
   const minis = await response.json();
+  filtersBlock.classList.remove('img-filters--inactive');
   return minis;
 }
 
