@@ -20,4 +20,3 @@ const createPhotoData = () => ({
 const createPhotosList = () => Array.from({length: 25}, createPhotoData);
 
 export {createPhotosList};
-

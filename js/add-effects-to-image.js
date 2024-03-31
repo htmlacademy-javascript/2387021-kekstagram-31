@@ -212,3 +212,5 @@ noUiSlider.create(rangeSlider, {
 // };
 
 // form.addEventListener('change', addEffectsToImage);
+
+export {workingImage, rangeSliderContainer};
