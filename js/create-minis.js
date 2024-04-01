@@ -9,7 +9,9 @@ const fragment = document.createDocumentFragment();
 // const photos = createPhotosList();
 
 const filterButtons = Array.from(document.querySelectorAll('.img-filters__button'));
-
+const picturesTitle = document.querySelector('.pictures__title');
+const uploadSection = document.querySelector('.img-upload');
+const RERENDER_DELAY = 500;
 
 const createMinis = (minis) => {
   for (let i = 0; i < minis.length; i++) {
@@ -49,24 +51,33 @@ const getDiscussedPhotos = () => {
   });
 };
 
+function debounce(cb, timeoutDelay = 500) {
+  console.log('work')
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(()=> cb.apply(this, rest), timeoutDelay);
+  };
+}
+
+const getFilterPhotosList = (photosList) => {
+  container.innerHTML = '';
+  container.append(picturesTitle);
+  container.append(uploadSection);
+  createMinis(photosList);
+};
+
 for (const filterButton of filterButtons) {
   filterButton.addEventListener('click', ()=> {
     filterButtons.forEach((button) => button.classList.remove('img-filters__button--active'));
     filterButton.classList.add('img-filters__button--active');
 
-    const title = document.querySelector('.pictures__title');
-    const uploadSection = document.querySelector('.img-upload');
-
-    container.innerHTML = '';
-    container.append(title);
-    container.append(uploadSection);
-
     switch(filterButton.id) {
-      case 'filter-default': createMinis(photos);
+      case 'filter-default': getFilterPhotosList(photos);
         break;
-      case 'filter-random': createMinis(getRandomPhotos(10));
+      case 'filter-random': getFilterPhotosList(getRandomPhotos(10));
         break;
-      case 'filter-discussed': createMinis(getDiscussedPhotos());
+      case 'filter-discussed': getFilterPhotosList(getDiscussedPhotos());
         break;
     }
   });
