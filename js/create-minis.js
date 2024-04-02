@@ -32,15 +32,26 @@ const createMinis = (minis) => {
   container.append(fragment);
 };
 
-const getRandomPhotos = (count) => {
-  const randomPhotoList = [];
-  for (let i = 0; i < count; i++) {
-    const photoId = getUniqueRandomNumber(0, 24);
-    const photo = photos[photoId()];
-    randomPhotoList.push(photo);
+// const getRandomPhotos = (count) => {
+//   const randomPhotoList = [];
+//   for (let i = 0; i < count; i++) {
+//     const photoId = getUniqueRandomNumber(0, 24);
+//     const photo = photos[photoId()];
+//     randomPhotoList.push(photo);
+//   }
+//   return randomPhotoList;
+// };
+
+function getRandomPhotos(minis) {
+  const copyMinis = minis.slice();
+  for (let i = copyMinis.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const x = copyMinis[i];
+    copyMinis[i] = copyMinis[j];
+    copyMinis[j] = x;
   }
-  return randomPhotoList;
-};
+  return copyMinis.slice(0, 10);
+}
 
 const getDiscussedPhotos = () => {
   const discussedPhotoList = photos.slice();
@@ -52,11 +63,10 @@ const getDiscussedPhotos = () => {
 };
 
 function debounce(cb, timeoutDelay = 500) {
-  console.log('work')
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(()=> cb.apply(this, rest), timeoutDelay);
+    timeoutId = setTimeout(()=> cb(rest), timeoutDelay);
   };
 }
 
@@ -73,11 +83,11 @@ for (const filterButton of filterButtons) {
     filterButton.classList.add('img-filters__button--active');
 
     switch(filterButton.id) {
-      case 'filter-default': getFilterPhotosList(photos);
+      case 'filter-default': debounce(getFilterPhotosList(photos), RERENDER_DELAY);
         break;
-      case 'filter-random': getFilterPhotosList(getRandomPhotos(10));
+      case 'filter-random': debounce(getFilterPhotosList(getRandomPhotos(photos)), RERENDER_DELAY);
         break;
-      case 'filter-discussed': getFilterPhotosList(getDiscussedPhotos());
+      case 'filter-discussed': debounce(getFilterPhotosList(getDiscussedPhotos()), RERENDER_DELAY);
         break;
     }
   });
