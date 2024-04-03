@@ -1,5 +1,6 @@
 // import {createMinis} from './create-minis.js';
-import {showUploadErrorMessage} from './util.js';
+import {resetForm, enableButton} from './validate-form.js';
+import {closeUploadWindow, showUploadErrorMessage, showErrorMessage, showSuccessMessage} from './util.js';
 
 const filtersBlock = document.querySelector('.img-filters');
 
@@ -38,4 +39,30 @@ async function getResponse() {
 
 const photos = await getResponse();
 
-export {photos};
+const sendRequest = (evt) => {
+  const formData = new FormData(evt.target);
+  fetch(
+    'https:31.javascript.htmlacademy.pro/kekstagram/',
+    {
+      method: 'POST',
+      body: formData,
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`${response.status} - ${response.statusText}`);
+      } else {
+        showSuccessMessage();
+        resetForm();
+        closeUploadWindow();
+      }
+      return response.json();
+    })
+    .catch(() => {
+      showErrorMessage();
+    })
+    .finally(() => {
+      enableButton();
+    });
+};
+
+export {photos, sendRequest};

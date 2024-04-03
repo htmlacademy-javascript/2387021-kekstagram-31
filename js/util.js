@@ -72,4 +72,12 @@ const closeUploadWindow = () => {
   uploadWindow.classList.add('hidden');
 };
 
-export {showUploadErrorMessage, showErrorMessage, showSuccessMessage, closeUploadWindow};
+function debounce(cb, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(()=> cb.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {showUploadErrorMessage, showErrorMessage, showSuccessMessage, closeUploadWindow, debounce};

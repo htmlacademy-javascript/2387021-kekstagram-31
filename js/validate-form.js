@@ -1,5 +1,6 @@
-import {closeUploadWindow, showErrorMessage, showSuccessMessage} from './util.js';
+// import {closeUploadWindow, showErrorMessage, showSuccessMessage} from './util.js';
 import {workingImage, rangeSliderContainer} from './add-effects-to-image.js';
+import {sendRequest} from './api.js';
 
 
 const form = document.querySelector('.img-upload__form');
@@ -64,29 +65,30 @@ form.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
   if (isValid) {
     disabledButton();
-    const formData = new FormData(evt.target);
-    fetch(
-      'https:31.javascript.htmlacademy.pro/kekstagram/',
-      {
-        method: 'POST',
-        body: formData,
-      })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`${response.status} - ${response.statusText}`);
-        } else {
-          showSuccessMessage();
-          resetForm();
-          closeUploadWindow();
-        }
-        return response.json();
-      })
-      .catch(() => {
-        showErrorMessage();
-      })
-      .finally(() => {
-        enableButton();
-      });
+    sendRequest(evt);
+    // const formData = new FormData(evt.target);
+    // fetch(
+    //   'https:31.javascript.htmlacademy.pro/kekstagram/',
+    //   {
+    //     method: 'POST',
+    //     body: formData,
+    //   })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error(`${response.status} - ${response.statusText}`);
+    //     } else {
+    //       showSuccessMessage();
+    //       resetForm();
+    //       closeUploadWindow();
+    //     }
+    //     return response.json();
+    //   })
+    //   .catch(() => {
+    //     showErrorMessage();
+    //   })
+    //   .finally(() => {
+    //     enableButton();
+    //   });
   }
 });
 
@@ -129,4 +131,4 @@ pristine.addValidator(hashtags, validateRepeatHashtags, 'хэштеги повт
 textarea.addEventListener('keydown', (evt) => evt.stopPropagation());
 hashtags.addEventListener('keydown', (evt) => evt.stopPropagation());
 
-export {form};
+export {form, resetForm, enableButton};

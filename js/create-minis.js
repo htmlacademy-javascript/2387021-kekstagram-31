@@ -1,6 +1,7 @@
 // import {createPhotosList} from './create-photos-list.js';
 import {photos} from './api.js';
 import {getUniqueRandomNumber} from './random-number.js';
+import {debounce} from './util.js';
 // import {getData} from './api.js';
 
 const container = document.querySelector('.pictures');
@@ -62,14 +63,6 @@ const getDiscussedPhotos = () => {
   });
 };
 
-function debounce(cb, timeoutDelay = 500) {
-  let timeoutId;
-  return (...rest) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(()=> cb(rest), timeoutDelay);
-  };
-}
-
 const getFilterPhotosList = (photosList) => {
   container.innerHTML = '';
   container.append(picturesTitle);
@@ -77,17 +70,21 @@ const getFilterPhotosList = (photosList) => {
   createMinis(photosList);
 };
 
+const random = debounce(getFilterPhotosList, RERENDER_DELAY);
+const def = debounce(getFilterPhotosList, RERENDER_DELAY);
+const discussed = debounce(getFilterPhotosList, RERENDER_DELAY);
+
 for (const filterButton of filterButtons) {
   filterButton.addEventListener('click', ()=> {
     filterButtons.forEach((button) => button.classList.remove('img-filters__button--active'));
     filterButton.classList.add('img-filters__button--active');
 
     switch(filterButton.id) {
-      case 'filter-default': debounce(getFilterPhotosList(photos), RERENDER_DELAY);
+      case 'filter-default': def(photos);
         break;
-      case 'filter-random': debounce(getFilterPhotosList(getRandomPhotos(photos)), RERENDER_DELAY);
+      case 'filter-random': random(getRandomPhotos(photos));
         break;
-      case 'filter-discussed': debounce(getFilterPhotosList(getDiscussedPhotos()), RERENDER_DELAY);
+      case 'filter-discussed': discussed(getDiscussedPhotos());
         break;
     }
   });
