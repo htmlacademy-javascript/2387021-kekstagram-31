@@ -1,6 +1,6 @@
 // import {createPhotosList} from './create-photos-list.js';
 import {photos} from './api.js';
-import {getUniqueRandomNumber} from './random-number.js';
+// import {getUniqueRandomNumber} from './random-number.js';
 import {debounce} from './util.js';
 // import {getData} from './api.js';
 
