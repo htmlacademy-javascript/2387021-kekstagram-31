@@ -1,35 +1,34 @@
-// import {form} from './validate-form.js';
 const scaleDownButton = document.querySelector('.scale__control--smaller');
 const scaleUpButton = document.querySelector('.scale__control--bigger');
 const scaleValue = document.querySelector('.scale__control--value');
 const workingImage = document.querySelector('.img-upload__preview').querySelector('img');
-
-const getScaleUpImage = () => {
-  let inputValue = parseInt(scaleValue.value, 10);
-  if (inputValue !== 100) {
-    scaleValue.value = `${inputValue + 25}%`;
-    inputValue += 25;
-    workingImage.style.transform = `scale(${inputValue / 100})`;
-  }
-};
-
-scaleUpButton.addEventListener('click', getScaleUpImage);
-
-const getScaleDownImage = () => {
-  let inputValue = parseInt(scaleValue.value, 10);
-  if (inputValue !== 25) {
-    scaleValue.value = `${inputValue - 25}%`;
-    inputValue -= 25;
-    workingImage.style.transform = `scale(${inputValue / 100})`;
-  }
-};
-
-scaleDownButton.addEventListener('click', getScaleDownImage);
-
 const rangeSlider = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 const rangeSliderContainer = document.querySelector('.img-upload__effect-level');
 const allEffects = document.querySelectorAll('.effects__radio');
+const STEP_SCALE = 25;
+
+const onScaleButtonUpClick = () => {
+  let inputValue = parseInt(scaleValue.value, 10);
+  if (inputValue !== 100) {
+    scaleValue.value = `${inputValue + STEP_SCALE}%`;
+    inputValue += STEP_SCALE;
+    workingImage.style.transform = `scale(${inputValue / 100})`;
+  }
+};
+
+scaleUpButton.addEventListener('click', onScaleButtonUpClick);
+
+const onScaleButtonDownClick = () => {
+  let inputValue = parseInt(scaleValue.value, 10);
+  if (inputValue !== STEP_SCALE) {
+    scaleValue.value = `${inputValue - STEP_SCALE}%`;
+    inputValue -= STEP_SCALE;
+    workingImage.style.transform = `scale(${inputValue / 100})`;
+  }
+};
+
+scaleDownButton.addEventListener('click', onScaleButtonDownClick);
 
 rangeSliderContainer.classList.add('hidden');
 
@@ -126,7 +125,7 @@ for (const effect of allEffects) {
   });
 }
 
-rangeSliderContainer.classList.add('hidden');
+// rangeSliderContainer.classList.add('hidden');
 
 noUiSlider.create(rangeSlider, {
   range: {
@@ -136,6 +135,17 @@ noUiSlider.create(rangeSlider, {
   start: 1,
   step: 0.1,
   connect: 'lower',
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
 });
 
 
@@ -213,4 +223,4 @@ noUiSlider.create(rangeSlider, {
 
 // form.addEventListener('change', addEffectsToImage);
 
-export {workingImage, rangeSliderContainer};
+export {workingImage, rangeSliderContainer, scaleValue, allEffects};

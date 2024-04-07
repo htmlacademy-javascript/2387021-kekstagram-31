@@ -1,5 +1,6 @@
 import {container} from './create-minis.js';
 import {photos} from './api.js';
+import {scaleValue} from './add-effects-to-image.js';
 
 const photoContainer = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
@@ -54,7 +55,7 @@ const onPhotoClick = (evt) => {
     loadButton.classList.remove('hidden');
     shownCommentsCount.textContent = 0;
     commentsContainer = [];
-    fullPhoto.src = currentPhoto.src;
+    fullPhoto.src = currentPhotoData.url;
     likesCount.textContent = currentPhotoData.likes;
     commentsCount.textContent = currentPhotoData.comments.length;
     photoCaption.textContent = currentPhotoData.description;
@@ -74,7 +75,7 @@ const onPhotoClick = (evt) => {
       hideButton();
     }
 
-    const loadMoreComments = () => {
+    const onLoadMoreButtonClick = () => {
       let counter = 0;
       for (let i = Number(shownCommentsCount.textContent); (i < Number(shownCommentsCount.textContent) + 5); i++) {
         if (!allComments[i]) {
@@ -90,21 +91,26 @@ const onPhotoClick = (evt) => {
       }
     };
 
-    loadButton.addEventListener('click', loadMoreComments);
+    loadButton.addEventListener('click', onLoadMoreButtonClick);
 
-    const closeFullPhoto = () => {
+    const onCloseFullPhotoClick = () => {
       document.body.classList.remove('modal-open');
       photoContainer.classList.add('hidden');
-      loadButton.removeEventListener('click', loadMoreComments);
+      loadButton.removeEventListener('click', onLoadMoreButtonClick);
+      closeButton.removeEventListener('click', onCloseFullPhotoClick);
+      // document.removeEventListener('keydown', onCloseFullPhotoKeydown);
+      scaleValue.value = '100%';
     };
 
-    closeButton.addEventListener('click', closeFullPhoto);
+    closeButton.addEventListener('click', onCloseFullPhotoClick);
 
-    document.addEventListener('keydown', (event) => {
+    const onCloseFullPhotoKeydown = (event) => {
       if (event.key === 'Escape') {
-        closeFullPhoto();
+        onCloseFullPhotoClick();
       }
-    });
+    };
+
+    document.addEventListener('keydown', onCloseFullPhotoKeydown);
   }
 };
 
