@@ -27,15 +27,11 @@ const showErrorMessage = () => {
     }
   });
 
+  const errorButton = document.querySelector('.error__button');
   document.body.addEventListener('click', (evt) => {
-    if (evt.target === errorBlock) {
+    if (evt.target === errorBlock || evt.target === errorButton) {
       errorBlock.remove();
     }
-  });
-
-  const errorButton = document.querySelector('.error__button');
-  errorButton.addEventListener('click', () => {
-    errorBlock.remove();
   });
 
   setTimeout(() => {
