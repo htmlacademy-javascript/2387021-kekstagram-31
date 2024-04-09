@@ -55,9 +55,7 @@ const getFilterPhotosList = (photosList) => {
   createMinis(photosList);
 };
 
-const getRandomList = debounce(getFilterPhotosList, RERENDER_DELAY);
-const getDefaultList = debounce(getFilterPhotosList, RERENDER_DELAY);
-const getDiscussedList = debounce(getFilterPhotosList, RERENDER_DELAY);
+const getFiltredList = debounce(getFilterPhotosList, RERENDER_DELAY);
 
 for (const filterButton of filterButtons) {
   filterButton.addEventListener('click', ()=> {
@@ -65,11 +63,11 @@ for (const filterButton of filterButtons) {
     filterButton.classList.add('img-filters__button--active');
 
     switch(filterButton.id) {
-      case 'filter-default': getDefaultList(photos);
+      case 'filter-default': getFiltredList(photos);
         break;
-      case 'filter-random': getRandomList(getRandomPhotos(photos));
+      case 'filter-random': getFiltredList(getRandomPhotos(photos));
         break;
-      case 'filter-discussed': getDiscussedList(getDiscussedPhotos());
+      case 'filter-discussed': getFiltredList(getDiscussedPhotos());
         break;
     }
   });

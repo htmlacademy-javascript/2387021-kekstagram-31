@@ -14,18 +14,19 @@ async function getResponse() {
     response = await fetch(`${baseUrl}${route.getData}`);
     if (!response.ok) {
       throw new Error(`${response.status} - ${response.statusText}`);
+    } else {
+      filtersBlock.classList.remove('img-filters--inactive');
+      return response.json();
     }
   } catch (err) {
     showUploadErrorMessage();
   }
-  const minis = await response.json();
-  filtersBlock.classList.remove('img-filters--inactive');
-  return minis;
+  return [];
 }
 
 const photos = await getResponse();
 
-const sendRequest = (evt) => {
+function sendRequest(evt) {
   const formData = new FormData(evt.target);
   fetch(
     `${baseUrl}${route.sendData}`,
@@ -49,6 +50,6 @@ const sendRequest = (evt) => {
     .finally(() => {
       enableButton();
     });
-};
+}
 
 export {photos, sendRequest};

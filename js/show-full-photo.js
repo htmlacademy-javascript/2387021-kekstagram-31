@@ -48,7 +48,7 @@ const onPhotoClick = (evt) => {
   const currentPhoto = evt.target;
   const currentPhotoData = getPhotoById(currentPhoto);
 
-  if (evt.target.closest('img')) {
+  if (evt.target.matches('.picture__img')) {
     evt.preventDefault();
     showFullPhoto();
 
@@ -98,7 +98,6 @@ const onPhotoClick = (evt) => {
       photoContainer.classList.add('hidden');
       loadButton.removeEventListener('click', onLoadMoreButtonClick);
       closeButton.removeEventListener('click', onCloseFullPhotoClick);
-      // document.removeEventListener('keydown', onCloseFullPhotoKeydown);
       scaleValue.value = '100%';
     };
 
@@ -107,13 +106,13 @@ const onPhotoClick = (evt) => {
     const onCloseFullPhotoKeydown = (event) => {
       if (event.key === 'Escape') {
         onCloseFullPhotoClick();
+        document.removeEventListener('keydown', onCloseFullPhotoKeydown);
       }
     };
 
     document.addEventListener('keydown', onCloseFullPhotoKeydown);
   }
 };
-
 
 container.addEventListener('click', onPhotoClick);
 

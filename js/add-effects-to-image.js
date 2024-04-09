@@ -125,8 +125,6 @@ for (const effect of allEffects) {
   });
 }
 
-// rangeSliderContainer.classList.add('hidden');
-
 noUiSlider.create(rangeSlider, {
   range: {
     min: 0,
@@ -147,80 +145,5 @@ noUiSlider.create(rangeSlider, {
     },
   },
 });
-
-
-//оптимизированная, но не рабочая версия
-
-// const effectsParametrs = {
-//   'effect-none': {
-//     filter: '',
-//     min: 1,
-//     max: 3,
-//     start: 3,
-//     step: 0.1
-//   },
-//   'effect-chrome': {
-//     filter: () => `grayscale(${rangeSlider.noUiSlider.get()})`,
-//     min: 0,
-//     max: 1,
-//     start: 1,
-//     step: 0.1
-//   },
-//   'effect-sepia': {
-//     filter: () => `sepia(${rangeSlider.noUiSlider.get()})`,
-//     min: 0,
-//     max: 1,
-//     start: 1,
-//     step: 0.1
-//   },
-//   'effect-marvin': {
-//     filter: () => `invert(${rangeSlider.noUiSlider.get()}%)`,
-//     min: 0,
-//     max: 100,
-//     start: 100,
-//     step: 1
-//   },
-//   'effect-phobos': {
-//     filter: () => `blur(${rangeSlider.noUiSlider.get()}px)`,
-//     min: 0,
-//     max: 3,
-//     start: 3,
-//     step: 0.1
-//   },
-//   'effect-heat': {
-//     filter: () => `brightness(${rangeSlider.noUiSlider.get()})`,
-//     min: 1,
-//     max: 3,
-//     start: 3,
-//     step: 0.1
-//   }
-// };
-
-// const addEffectsToImage = (evt) => {
-//   if (evt.target.matches('.effects__radio')) {
-//     const effectId = evt.target.id;
-//     rangeSlider.noUiSlider.on('update', () => {
-//       effectValue.value = rangeSlider.noUiSlider.get();
-//       workingImage.style.filter = effectsParametrs[effectId].filter;
-//     });
-
-//     rangeSlider.noUiSlider.updateOptions({
-//       range: {
-//         min: effectsParametrs[effectId].min,
-//         max: effectsParametrs[effectId].max
-//       },
-//       start: effectsParametrs[effectId].start,
-//       step: effectsParametrs[effectId].step
-//     });
-
-//     if (effectId === 'effect-none') {
-//       rangeSliderContainer.classList.add('hidden');
-//     } else {
-//       rangeSliderContainer.classList.remove('hidden');
-//     }
-//   }
-// };
-
-// form.addEventListener('change', addEffectsToImage);
 
 export {workingImage, rangeSliderContainer, scaleValue, allEffects};
