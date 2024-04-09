@@ -20,23 +20,26 @@ const showErrorMessage = () => {
 
   const errorBlock = document.querySelector('.error');
 
-  document.body.addEventListener('keydown', (evt) => {
+  const onDocumentKeydown = (evt) => {
     evt.stopPropagation();
     if (evt.key === 'Escape') {
       errorBlock.remove();
+      document.body.removeEventListener('keydown', onDocumentKeydown);
     }
-  });
+  };
 
-  document.body.addEventListener('click', (evt) => {
-    if (evt.target === errorBlock) {
-      errorBlock.remove();
-    }
-  });
+  document.body.addEventListener('keydown', onDocumentKeydown);
 
   const errorButton = document.querySelector('.error__button');
-  errorButton.addEventListener('click', () => {
-    errorBlock.remove();
-  });
+
+  const onDocumentClick = (evt) => {
+    if (evt.target === errorBlock || evt.target === errorButton) {
+      errorBlock.remove();
+      document.body.removeEventListener('click', onDocumentClick);
+    }
+  };
+
+  document.body.addEventListener('click', onDocumentClick);
 
   setTimeout(() => {
     errorBlock.remove();
@@ -49,18 +52,26 @@ const showSuccessMessage = () => {
 
   const successBlock = document.querySelector('.success');
 
-  document.body.addEventListener('keydown', (evt) => {
+  const onDocumentKeydown = (evt) => {
+    evt.stopPropagation();
     if (evt.key === 'Escape') {
       successBlock.remove();
+      document.body.removeEventListener('keydown', onDocumentKeydown);
     }
-  });
+  };
+
+  document.body.addEventListener('keydown', onDocumentKeydown);
 
   const successButton = document.querySelector('.success__button');
-  document.body.addEventListener('click', (evt) => {
+
+  const onDocumentClick = (evt) => {
     if (evt.target === successBlock || evt.target === successButton) {
       successBlock.remove();
+      document.body.removeEventListener('click', onDocumentClick);
     }
-  });
+  };
+
+  document.body.addEventListener('click', onDocumentClick);
 
   setTimeout(() => {
     successBlock.remove();

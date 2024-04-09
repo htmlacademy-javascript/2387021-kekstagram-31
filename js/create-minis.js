@@ -1,14 +1,9 @@
-// import {createPhotosList} from './create-photos-list.js';
 import {photos} from './api.js';
-// import {getUniqueRandomNumber} from './random-number.js';
 import {debounce} from './util.js';
-// import {getData} from './api.js';
 
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const fragment = document.createDocumentFragment();
-// const photos = createPhotosList();
-
 const filterButtons = Array.from(document.querySelectorAll('.img-filters__button'));
 const picturesTitle = document.querySelector('.pictures__title');
 const uploadSection = document.querySelector('.img-upload');
@@ -24,7 +19,7 @@ const createMinis = (minis) => {
     image.src = minis[i].url;
     image.alt = minis[i].description;
     likes.textContent = minis[i].likes;
-    comments.innerHTML = minis[i].comments.length;
+    comments.textContent = minis[i].comments.length;
     image.id = minis[i].id;
 
     fragment.append(photoElement);
@@ -33,23 +28,13 @@ const createMinis = (minis) => {
   container.append(fragment);
 };
 
-// const getRandomPhotos = (count) => {
-//   const randomPhotoList = [];
-//   for (let i = 0; i < count; i++) {
-//     const photoId = getUniqueRandomNumber(0, 24);
-//     const photo = photos[photoId()];
-//     randomPhotoList.push(photo);
-//   }
-//   return randomPhotoList;
-// };
-
 function getRandomPhotos(minis) {
   const copyMinis = minis.slice();
   for (let i = copyMinis.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const x = copyMinis[i];
-    copyMinis[i] = copyMinis[j];
-    copyMinis[j] = x;
+    const randomNumber = Math.floor(Math.random() * (i + 1));
+    const lastElement = copyMinis[i];
+    copyMinis[i] = copyMinis[randomNumber];
+    copyMinis[randomNumber] = lastElement;
   }
   return copyMinis.slice(0, 10);
 }
@@ -70,9 +55,7 @@ const getFilterPhotosList = (photosList) => {
   createMinis(photosList);
 };
 
-const random = debounce(getFilterPhotosList, RERENDER_DELAY);
-const def = debounce(getFilterPhotosList, RERENDER_DELAY);
-const discussed = debounce(getFilterPhotosList, RERENDER_DELAY);
+const getFiltredList = debounce(getFilterPhotosList, RERENDER_DELAY);
 
 for (const filterButton of filterButtons) {
   filterButton.addEventListener('click', ()=> {
@@ -80,11 +63,11 @@ for (const filterButton of filterButtons) {
     filterButton.classList.add('img-filters__button--active');
 
     switch(filterButton.id) {
-      case 'filter-default': def(photos);
+      case 'filter-default': getFiltredList(photos);
         break;
-      case 'filter-random': random(getRandomPhotos(photos));
+      case 'filter-random': getFiltredList(getRandomPhotos(photos));
         break;
-      case 'filter-discussed': discussed(getDiscussedPhotos());
+      case 'filter-discussed': getFiltredList(getDiscussedPhotos());
         break;
     }
   });
