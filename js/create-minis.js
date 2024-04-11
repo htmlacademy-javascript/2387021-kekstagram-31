@@ -28,7 +28,7 @@ const createMinis = (minis) => {
   container.append(fragment);
 };
 
-function getRandomPhotos(minis) {
+const getRandomPhotos = (minis) => {
   const copyMinis = minis.slice();
   for (let i = copyMinis.length - 1; i > 0; i--) {
     const randomNumber = Math.floor(Math.random() * (i + 1));
@@ -37,7 +37,7 @@ function getRandomPhotos(minis) {
     copyMinis[randomNumber] = lastElement;
   }
   return copyMinis.slice(0, 10);
-}
+};
 
 const getDiscussedPhotos = () => {
   const discussedPhotoList = photos.slice();
