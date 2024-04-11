@@ -2,6 +2,7 @@ const errorLoadUsersDataTemplate = document.querySelector('#data-error').content
 const errorLoadDataTemplate = document.querySelector('#error').content;
 const successTemplate = document.querySelector('#success').content;
 const uploadWindow = document.querySelector('.img-upload__overlay');
+const AUTOMATIC_CLOSING_TIME = 5000;
 
 const showUploadErrorMessage = () => {
   const errorArea = errorLoadUsersDataTemplate.cloneNode(true);
@@ -11,7 +12,7 @@ const showUploadErrorMessage = () => {
 
   setTimeout(() => {
     errorBlock.remove();
-  }, 5000);
+  }, AUTOMATIC_CLOSING_TIME);
 };
 
 const showErrorMessage = () => {
@@ -19,31 +20,19 @@ const showErrorMessage = () => {
   document.body.append(errorArea);
 
   const errorBlock = document.querySelector('.error');
-
-  const onDocumentKeydown = (evt) => {
-    evt.stopPropagation();
-    if (evt.key === 'Escape') {
-      errorBlock.remove();
-      document.body.removeEventListener('keydown', onDocumentKeydown);
-    }
-  };
-
-  document.body.addEventListener('keydown', onDocumentKeydown);
-
   const errorButton = document.querySelector('.error__button');
 
   const onDocumentClick = (evt) => {
-    if (evt.target === errorBlock || evt.target === errorButton) {
+    evt.stopPropagation();
+    if (evt.key === 'Escape' || evt.target === errorBlock || evt.target === errorButton) {
       errorBlock.remove();
+      document.body.removeEventListener('keydown', onDocumentClick);
       document.body.removeEventListener('click', onDocumentClick);
     }
   };
 
+  document.body.addEventListener('keydown', onDocumentClick);
   document.body.addEventListener('click', onDocumentClick);
-
-  setTimeout(() => {
-    errorBlock.remove();
-  }, 5000);
 };
 
 const showSuccessMessage = () => {
@@ -51,31 +40,19 @@ const showSuccessMessage = () => {
   document.body.append(successArea);
 
   const successBlock = document.querySelector('.success');
-
-  const onDocumentKeydown = (evt) => {
-    evt.stopPropagation();
-    if (evt.key === 'Escape') {
-      successBlock.remove();
-      document.body.removeEventListener('keydown', onDocumentKeydown);
-    }
-  };
-
-  document.body.addEventListener('keydown', onDocumentKeydown);
-
   const successButton = document.querySelector('.success__button');
 
   const onDocumentClick = (evt) => {
-    if (evt.target === successBlock || evt.target === successButton) {
+    evt.stopPropagation();
+    if (evt.key === 'Escape' || evt.target === successBlock || evt.target === successButton) {
       successBlock.remove();
+      document.body.removeEventListener('keydown', onDocumentClick);
       document.body.removeEventListener('click', onDocumentClick);
     }
   };
 
+  document.body.addEventListener('keydown', onDocumentClick);
   document.body.addEventListener('click', onDocumentClick);
-
-  setTimeout(() => {
-    successBlock.remove();
-  }, 5000);
 };
 
 const closeUploadWindow = () => {

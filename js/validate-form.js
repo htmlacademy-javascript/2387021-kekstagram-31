@@ -9,6 +9,8 @@ const hashtags = document.querySelector('.text__hashtags');
 const textarea = document.querySelector('.text__description');
 const formSubmitButton = document.querySelector('.img-upload__submit');
 const space = '';
+const MAXIMUM_NUMBER_OF_HASHTAGS = 5;
+const MAXIMUM_NUMBER_OF_SYMBOLS = 140;
 
 const disableButton = () => {
   formSubmitButton.disabled = true;
@@ -76,40 +78,25 @@ form.addEventListener('submit', (evt) => {
 });
 
 const validateHashtags = (value) => {
-  if (value === '') {
-    return true;
-  }
-  const regExp = /^#[a-zа-яё0-9]{1,20}$/i;
+  const regExp = /^#[a-zа-яё0-9]{1,19}$/i;
   const valueArray = value.split(' ').filter((item) => item !== space);
-
-  for (const item of valueArray) {
-    if (!regExp.test(item) || item.length > 20) {
-      return false;
-    }
-  }
-  return true;
+  return valueArray.every((item) => regExp.test(item));
 };
 
 const validateQuantityHashtags = (value) => {
   const valueArray = value.split(' ').filter((item) => item !== space);
-  if (valueArray.length > 5) {
-    return false;
-  }
-  return true;
+  return valueArray.length <= MAXIMUM_NUMBER_OF_HASHTAGS;
 };
 
 const validateRepeatHashtags = (value) => {
   const valueArray = value.toLowerCase().split(' ').filter((item) => item !== space);
   const valueSet = new Set(valueArray);
-  if (valueArray.length !== valueSet.size) {
-    return false;
-  }
-  return true;
+  return valueArray.length === valueSet.size;
 };
 
 const validateMaxSymbols = (value) => {
   const countSymbols = value.length;
-  return countSymbols <= 140;
+  return countSymbols <= MAXIMUM_NUMBER_OF_SYMBOLS;
 };
 
 pristine.addValidator(hashtags, validateHashtags, 'введен невалидный хэштег');

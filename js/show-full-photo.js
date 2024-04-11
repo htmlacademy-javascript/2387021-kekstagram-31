@@ -12,7 +12,8 @@ const photoCaption = document.querySelector('.social__caption');
 const commentsList = document.querySelector('.social__comments');
 const commentItem = document.querySelector('.social__comment');
 const loadButton = document.querySelector('.social__comments-loader');
-let commentsContainer = [];
+const NUMBER_OF_DOWNLOADED_COMMENTS = 5;
+let comments = [];
 
 const showFullPhoto = () => {
   document.body.classList.add('modal-open');
@@ -39,9 +40,9 @@ const makeCommentsList = (list) => {
     comment.querySelector('img').src = list[i].avatar;
     comment.querySelector('img').alt = list[i].name;
     comment.querySelector('p').textContent = list[i].message;
-    commentsContainer.push(comment);
+    comments.push(comment);
   }
-  return commentsContainer;
+  return comments;
 };
 
 const onPhotoClick = (evt) => {
@@ -54,7 +55,7 @@ const onPhotoClick = (evt) => {
 
     loadButton.classList.remove('hidden');
     shownCommentsCount.textContent = 0;
-    commentsContainer = [];
+    comments = [];
     fullPhoto.src = currentPhotoData.url;
     likesCount.textContent = currentPhotoData.likes;
     commentsCount.textContent = currentPhotoData.comments.length;
@@ -63,7 +64,7 @@ const onPhotoClick = (evt) => {
     const commentsArray = currentPhotoData.comments;
     const allComments = makeCommentsList(commentsArray);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < NUMBER_OF_DOWNLOADED_COMMENTS; i++) {
       if (!allComments[i]) {
         break;
       }
@@ -93,7 +94,10 @@ const onPhotoClick = (evt) => {
 
     loadButton.addEventListener('click', onLoadMoreButtonClick);
 
-    const onCloseFullPhotoClick = () => {
+    const onCloseFullPhotoClick = (event) => {
+      if (event.key === 'Escape' || event.target === closeButton) {
+        document.removeEventListener('keydown', onCloseFullPhotoClick);
+      }
       document.body.classList.remove('modal-open');
       photoContainer.classList.add('hidden');
       loadButton.removeEventListener('click', onLoadMoreButtonClick);
@@ -102,15 +106,7 @@ const onPhotoClick = (evt) => {
     };
 
     closeButton.addEventListener('click', onCloseFullPhotoClick);
-
-    const onCloseFullPhotoKeydown = (event) => {
-      if (event.key === 'Escape') {
-        onCloseFullPhotoClick();
-        document.removeEventListener('keydown', onCloseFullPhotoKeydown);
-      }
-    };
-
-    document.addEventListener('keydown', onCloseFullPhotoKeydown);
+    document.addEventListener('keydown', onCloseFullPhotoClick);
   }
 };
 
